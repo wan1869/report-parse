@@ -1,0 +1,12 @@
+CREATE DATABASE `denfo_edi` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE TABLE `interfacelog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `method` varchar(45) NOT NULL,
+  `request` longtext NOT NULL,
+  `response` longtext,
+  `createDT` datetime NOT NULL,
+  `updateDT` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
