@@ -1,4 +1,4 @@
-package main.java.com.denfo.edi.uniondrug.service;
+package com.denfo.edi.uniondrug.service;
 
 /**
  * @author wan

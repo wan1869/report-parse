@@ -1,4 +1,4 @@
-package main.java.com.denfo.edi.uniondrug.entity;
+package com.denfo.edi.uniondrug.entity;
 
 import java.util.Date;
 

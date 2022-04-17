@@ -1,14 +1,16 @@
 package test.java.com.denfo.edi.uniondrug;
 
-import main.java.com.denfo.edi.uniondrug.EdiApplication;
-import main.java.com.denfo.edi.uniondrug.dao.InterfaceLogDao;
-import main.java.com.denfo.edi.uniondrug.entity.InterfaceLog;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.denfo.edi.uniondrug.EdiApplication;
+import com.denfo.edi.uniondrug.dao.InterfaceLogDao;
+import com.denfo.edi.uniondrug.entity.InterfaceLog;
+import com.denfo.edi.uniondrug.util.Sign;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
-import java.util.List;
 
 @SpringBootTest(classes = EdiApplication.class)
 class EdiApplicationTests {
@@ -24,6 +26,8 @@ class EdiApplicationTests {
 	public void testqueryLogs() {
 		InterfaceLog log = interfaceDao.queryLog(1);
 		System.out.println(log.getMethod());
+		JSONObject requestJson = JSON.parseObject(log.getRequest());
+		String sign = Sign.getSign(requestJson);
 	}
 	@Test
 	public void testinsertLog() {

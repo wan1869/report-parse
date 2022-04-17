@@ -1,4 +1,6 @@
-package main.java.com.denfo.edi.uniondrug.util;
+package com.denfo.edi.uniondrug.util;
+
+import com.alibaba.fastjson.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,12 +12,19 @@ public class Sign {
     //     getSign();
     // }
 
-    public static String getSign(Map<String, String> params)
+    public static String getSign(JSONObject jsonObject)
     {
-        String key = "test123";//公共密钥key，由药联提供
-        // Map<String, String> params = new HashMap<>();
-        // params = requestMap;
+        String key = "5b8c67aa4614c75daa0be2d73f59241c";//公共密钥key，由药联提供
+        Map<String, String> params = new HashMap<>();
+        // params.put("flag", "1");
+        // params.put("size", "100");
+        // params.put("num", "1");
+        // params.put("lastUpdatedTime", "2022-04-12 08:08:45");
+        for(Map.Entry<String, Object> entry : jsonObject.entrySet()){
+            params.put(entry.getKey(), entry.getValue().toString());
+        }
         Map<String, String> resultMap = sortMapByKey(params);
+        // System.out.println(resultMap);
         String jsonOfParams = "";
         for(Map.Entry<String, String> entry : resultMap.entrySet()){
             String mapKey = entry.getKey();
@@ -23,6 +32,7 @@ public class Sign {
             jsonOfParams += ",\"" + mapKey + "\":\"" + mapValue + "\"";
         }
         jsonOfParams = "{" + jsonOfParams.substring(1) + "}";
+        // System.out.println(jsonOfParams);
         jsonOfParams = MyMD5Util.encrypt(jsonOfParams, key);
         jsonOfParams = jsonOfParams.toLowerCase().substring(0, 16);
         System.out.println(jsonOfParams);

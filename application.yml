@@ -13,4 +13,4 @@ spring:
 
 
 mybatis:
-  type-aliases-package: main.java.com.denfo.edi.uniondrug.dao
+  type-aliases-package: com.denfo.edi.uniondrug.dao

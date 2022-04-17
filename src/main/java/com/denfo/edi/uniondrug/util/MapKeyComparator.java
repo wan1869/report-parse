@@ -1,4 +1,4 @@
-package main.java.com.denfo.edi.uniondrug.util;
+package com.denfo.edi.uniondrug.util;
 
 import java.util.Comparator;
 public class MapKeyComparator implements Comparator<String>{

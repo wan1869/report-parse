@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="main.java.com.denfo.edi.uniondrug.dao.mapper">
+<mapper namespace="com.denfo.edi.uniondrug.dao.mapper">
 
-    <select id="queryLog" resultType="main.java.com.denfo.edi.uniondrug.entity.InterfaceLog">
+    <select id="queryLog" resultType="com.denfo.edi.uniondrug.entity.InterfaceLog">
         SELECT * FROM interfaceLog where id = #{id}
     </select>
 
-    <select id="requestQuery" resultType="main.java.com.denfo.edi.uniondrug.entity.InterfaceLog">
+    <select id="requestQuery" resultType="com.denfo.edi.uniondrug.entity.InterfaceLog">
         select * from interfaceLog
         <where>
             <include refid="where_params"/>

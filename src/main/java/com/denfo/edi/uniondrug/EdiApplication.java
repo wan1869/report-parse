@@ -1,15 +1,13 @@
-package main.java.com.denfo.edi.uniondrug;
+package com.denfo.edi.uniondrug;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
-@MapperScan("main.java.com.denfo.edi.uniondrug.dao")
+@MapperScan("com.denfo.edi.uniondrug.dao")
 public class EdiApplication {
 
 

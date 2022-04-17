@@ -1,4 +1,4 @@
-package main.java.com.denfo.edi.uniondrug.util;
+package com.denfo.edi.uniondrug.util;
 
 import java.security.MessageDigest;
 

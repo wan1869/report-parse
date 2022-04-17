@@ -1,4 +1,4 @@
-package main.java.com.denfo.edi.uniondrug.util;
+package com.denfo.edi.uniondrug.util;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -14,8 +14,8 @@ import org.apache.http.util.TextUtils;
 public class HttpPostUtil {
 
     public static String getPostResult(String strURL, String params) {
-        System.out.println(strURL);
-        System.out.println(params);
+        // System.out.println(strURL);
+        // System.out.println(params);
 
         Integer retryCount = 0;
         String result = "";

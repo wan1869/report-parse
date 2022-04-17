@@ -4,9 +4,9 @@ CREATE TABLE `interfacelog` (
   `method` varchar(45) NOT NULL,
   `request` longtext NOT NULL,
   `response` longtext,
-  `createDT` datetime NOT NULL,
-  `updateDT` datetime DEFAULT NULL,
+  `createDT` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateDT` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `status` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 

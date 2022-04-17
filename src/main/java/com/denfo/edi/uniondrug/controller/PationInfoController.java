@@ -1,8 +1,6 @@
-package main.java.com.denfo.edi.uniondrug.controller;
+package com.denfo.edi.uniondrug.controller;
 
-import main.java.com.denfo.edi.uniondrug.dao.InterfaceLogDao;
-import main.java.com.denfo.edi.uniondrug.entity.InterfaceLog;
-import main.java.com.denfo.edi.uniondrug.service.ApiDataprocessingService;
+import com.denfo.edi.uniondrug.service.ApiDataprocessingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +17,6 @@ public class PationInfoController {
         String method = "getPatientInfo";
         String testSign = "2672de2c1401264b";
         String result = dataprocessingService.getHttpPostData(method, httpUrl,testSign);
-        // System.out.println(result);
         return result;
     }
 
