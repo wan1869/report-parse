@@ -55,8 +55,8 @@ public class ApiDataprocessingServiceImpl implements ApiDataprocessingService {
                 String result = HttpPostUtil.getPostResult(httpUrl, requestJson.toString());
                 // System.out.println(result);
                 JSONObject jsonObject = JSONObject.parseObject(result);
-                System.out.println(jsonObject.toString());
-                // interfaceLog.setResponse(result);
+//                System.out.println(jsonObject.toString());
+                 interfaceLog.setResponse(result);
                 interfaceLog.setStatus(1);
                 if (method == "trackingStatus" || requestJson.getInteger("num") == 1) {
                     interfaceLogDao.updateLog(interfaceLog);
