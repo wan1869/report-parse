@@ -49,9 +49,9 @@ public class ApiDataprocessingServiceImpl implements ApiDataprocessingService {
                 String currentTime = dateFormat.format(date);
                 requestJson.put("time", currentTime);
                 // 测试使用固定sign
-                sign = testSign;
+//                sign = testSign;
                 requestJson.put("sign", sign);
-
+                System.out.println(sign);
                 String result = HttpPostUtil.getPostResult(httpUrl, requestJson.toString());
                 // System.out.println(result);
                 JSONObject jsonObject = JSONObject.parseObject(result);
