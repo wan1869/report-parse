@@ -65,7 +65,7 @@ public class ApiDataprocessingServiceImpl implements ApiDataprocessingService {
                     interfaceLog.setRequest(requestJson.toString());
                     interfaceLogDao.insertLog(interfaceLog);
                 }
-                data = jsonObject.getString("data");
+                data = data + jsonObject.getString("data");
                 // System.out.println(data);
                 Integer count = jsonObject.getInteger("count");
                 Integer size = requestJson.getInteger("size");
