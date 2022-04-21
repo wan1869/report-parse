@@ -14,7 +14,7 @@ public class Sign {
 
     public static String getSign(JSONObject jsonObject)
     {
-        String key = "8fcb8531d6535aef109c0d072f1151dd";//公共密钥key，由药联提供
+        String key = "18db9fbecc7701646336562df6bd4dfa";//公共密钥key，由药联提供
         Map<String, String> params = new HashMap<>();
         // params.put("flag", "1");
         // params.put("size", "100");

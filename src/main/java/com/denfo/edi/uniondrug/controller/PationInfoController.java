@@ -13,7 +13,7 @@ public class PationInfoController {
 
     @RequestMapping("patientInfo")
     public String patientInfo(){
-        String httpUrl = "http://ps-hs-api.uniondrug.net/getPatientInfo";
+        String httpUrl = "http://ps-hs-api.uniondrug.cn/getPatientInfo";
         String method = "getPatientInfo";
         String testSign = "2672de2c1401264b";
         String result = dataprocessingService.getHttpPostData(method, httpUrl,testSign);
@@ -22,7 +22,7 @@ public class PationInfoController {
 
     @RequestMapping("registerPlan")
     public String registerPlan(){
-        String httpUrl = "http://ps-hs-api.uniondrug.net/getRegisterPlan";
+        String httpUrl = "http://ps-hs-api.uniondrug.cn/getRegisterPlan";
         String method = "getRegisterPlan";
         String testSign = "2672de2c1401264b";
         String result = dataprocessingService.getHttpPostData(method, httpUrl, testSign);
@@ -31,7 +31,7 @@ public class PationInfoController {
 
     @RequestMapping("trackingStatus")
     public String trackingStatus(){
-        String httpUrl = "http://ps-hs-api.uniondrug.net/trackingStatus";
+        String httpUrl = "http://ps-hs-api.uniondrug.cn/trackingStatus";
         String method = "trackingStatus";
         String testSign = "3e84a1c234d367e2";
         String result = dataprocessingService.getHttpPostData(method, httpUrl, testSign);

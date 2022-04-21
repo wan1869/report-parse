@@ -3,11 +3,11 @@
 <mapper namespace="com.denfo.edi.uniondrug.dao.mapper">
 
     <select id="queryLog" resultType="com.denfo.edi.uniondrug.entity.InterfaceLog">
-        SELECT * FROM interfaceLog where id = #{id}
+        SELECT * FROM interfacelog where id = #{id}
     </select>
 
     <select id="requestQuery" resultType="com.denfo.edi.uniondrug.entity.InterfaceLog">
-        select * from interfaceLog
+        select * from interfacelog
         <where>
             <include refid="where_params"/>
         </where>
