@@ -21,7 +21,10 @@ public class PationInfoController {
 
     @RequestMapping("patientInfo")
     public String patientInfo(){
+
         String httpUrl = propertiesConfig.getUrl() + "getPatientInfo";
+
+
         String method = "getPatientInfo";
         String testSign = propertiesConfig.getSign();
         System.out.println(httpUrl);
@@ -32,7 +35,9 @@ public class PationInfoController {
 
     @RequestMapping("registerPlan")
     public String registerPlan(){
+
         String httpUrl = propertiesConfig.getUrl()+"getRegisterPlan";
+
         String method = "getRegisterPlan";
         String testSign = propertiesConfig.getSign();
         String result = dataprocessingService.getHttpPostData(method, httpUrl, testSign);
@@ -41,7 +46,9 @@ public class PationInfoController {
 
     @RequestMapping("trackingStatus")
     public String trackingStatus(){
+
         String httpUrl = propertiesConfig.getUrl()+"trackingStatus";
+
         String method = "trackingStatus";
         String testSign = propertiesConfig.getSign();
         String result = dataprocessingService.getHttpPostData(method, httpUrl, testSign);

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.denfo.edi.uniondrug.dao.mapper">
+
+    <select id="queryLog" resultType="com.denfo.edi.uniondrug.entity.InterfaceLog">
+        SELECT * FROM interfacelog where id = #{id}
+    </select>
+
+    <select id="requestQuery" resultType="com.denfo.edi.uniondrug.entity.InterfaceLog">
+        select * from interfacelog
+        <where>
+            <include refid="where_params"/>
+        </where>
+    </select>
+
+    <sql id="where_params">
+        <if test=" method != null ">
+            method  = #{method}
+        </if>
+        <if test=" status != null ">
+            AND  status= #{status}
+        </if>
+    </sql>
+
+    <update id="updateLog">
+        update interfacelog
+        <set>
+            <if test="method != null and method !=''">
+                method = #{method,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INT},
+            </if>
+            <if test="request != null and request !=''">
+                request = #{request,jdbcType=VARCHAR},
+            </if>
+            <if test="response != null and response !='' ">
+                response = #{response,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INT}
+    </update>
+
+    <insert id="insertLog">
+        insert into interfacelog
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="method != null and method !='' ">
+                method,
+            </if>
+            <if test="status != null ">
+                status,
+            </if>
+            <if test="request != null and request !=''">
+                request,
+            </if>
+            <if test="response != null and response !='' ">
+                response,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="method != null and method !=''">
+                method = #{method,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INT},
+            </if>
+            <if test="request != null and request !=''">
+                request = #{request,jdbcType=VARCHAR},
+            </if>
+            <if test="response != null and response !='' ">
+                response = #{response,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>
+

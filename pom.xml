@@ -16,7 +16,9 @@
 	<description>interface project for union drug</description>
 	<properties>
 		<java.version>8</java.version>
+		<docker.image.prefix>edi:latest</docker.image.prefix>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -43,7 +45,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<scope>runtime</scope>
+			<!--<scope>runtime</scope>-->
 		</dependency>
 		<dependency>
 			<groupId>org.xmlunit</groupId>
@@ -76,6 +78,8 @@
 	</dependencies>
 
 	<build>
+		<finalName>edi</finalName>
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -101,6 +105,24 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>1.2.2</version>
+				<configuration>
+					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+					<dockerDirectory>src/main/docker</dockerDirectory>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>
+
 		</plugins>
 
 	</build>
