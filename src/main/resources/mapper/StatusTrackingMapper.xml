@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.denfo.edi.uniondrug.dao.StatusTrackingMapper">
+    <resultMap id="StatusTrackingMap" type="com.denfo.edi.uniondrug.entity.StatusTracking">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="patIndexNo" property="patIndexNo" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="reportLink" property="reportLink" jdbcType="VARCHAR"/>
+        <result column="orderNo" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="createDT" property="createDT" jdbcType="DATE"/>
+        <result column="updateDT" property="updateDT" jdbcType="DATE"/>
+    </resultMap>
+
+    <select id="getStatusTrackingById" resultMap="StatusTrackingMap">
+        select e.* from status_tracking e where e.`id`=#{id}
+    </select>
+    <select id="getStatusTrackingByPage" resultMap="StatusTrackingMap">
+        select e.* from status_tracking e
+          where 1=1
+            <if test="st.orderNo !=null and st.patIndexNo!=''">
+                and e.orderNo like concat('%',#{st.orderNo},'%')
+            </if>
+            <if test="st.patIndexNo !=null and st.patIndexNo!=''">
+                and e.patIndexNo like concat('%',#{st.patIndexNo},'%')
+            </if>
+            <if test="st.name !=null and st.name!=''">
+                and e.name like concat('%',#{st.name},'%')
+            </if>
+            <if test="st.telephone !=null and st.telephone!=''">
+                and e.telephone like concat('%',#{st.telephone},'%')
+            </if>
+            <if test="st.status !=null and st.status!=''">
+                and e.status like concat('%',#{st.status},'%')
+            </if>
+            <if test="st.reportLink !=null and st.reportLink!=''">
+                and e.reportLink like concat('%',#{st.reportLink},'%')
+            </if>
+            <if test="createDTScope !=null">
+                and e.createDT between #{createDTScope[0]} and #{createDTScope[1]}
+            </if>
+            <if test="page !=null and size!=null">
+                limit #{page},#{size}
+            </if>
+
+    </select>
+    <select id="getTotal" resultType="java.lang.Long">
+        select count(*) from status_tracking e
+        where 1=1
+
+            <if test="st.patIndexNo !=null and st.patIndexNo!=''">
+                and e.patIndexNo like concat('%',#{st.patIndexNo},'%')
+            </if>
+            <if test="st.name !=null and st.name!=''">
+                and e.name like concat('%',#{st.name},'%')
+            </if>
+            <if test="st.telephone !=null and st.telephone!=''">
+                and e.telephone like concat('%',#{st.telephone},'%')
+            </if>
+            <if test="st.status !=null and st.status!=''">
+                and e.status like concat('%',#{st.status},'%')
+            </if>
+            <if test="st.reportLink !=null and st.reportLink!=''">
+                and e.reportLink like concat('%',#{st.reportLink},'%')
+            </if>
+            <if test="createDTScope !=null">
+                and e.createDT between #{createDTScope[0]} and #{createDTScope[1]}
+            </if>
+
+    </select>
+    <select id="selectByPrimaryKey" resultMap="StatusTrackingMap" parameterType="java.lang.Integer">
+        select * from status_tracking where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from status_tracking
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="addSTs">
+        insert into status_tracking (orderNo,
+        patIndexNo,
+        name,
+        telephone,
+        reportLink,
+        status)
+        values
+        <foreach collection="list" separator="," item="st">
+            ( #{st.orderNo,jdbcType=VARCHAR},#{st.patIndexNo,jdbcType=VARCHAR},#{st.name,jdbcType=VARCHAR},
+            #{st.telephone,jdbcType=VARCHAR},#{st.reportLink,jdbcType=VARCHAR},#{st.status,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.denfo.edi.uniondrug.entity.StatusTracking">
+        insert into status_tracking (id,
+        orderNo,
+        patIndexNo,
+        name,
+        telephone,
+        reportLink,
+        status)
+       values
+        (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR},#{patIndexNo,jdbcType=VARCHAR},
+        #{name,jdbcType=VARCHAR},#{telephone,jdbcType=VARCHAR},#{reportLink,jdbcType=VARCHAR},
+        #{status,jdbcType=VARCHAR})
+  </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.denfo.edi.uniondrug.entity.StatusTracking">
+        update status_tracking
+        <set>
+            <if test="patIndexNo != null">
+                patIndexNo = #{patIndexNo,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="reportLink != null">
+                reportLink = #{reportLink,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNo != null">
+                orderNo = #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.denfo.edi.uniondrug.entity.StatusTracking">
+        update status_tracking
+        set patIndexNo = #{patIndexNo,jdbcType=VARCHAR},
+            name = #{name,jdbcType=VARCHAR},
+            telephone = #{telephone,jdbcType=VARCHAR},
+            reportLink = #{reportLink,jdbcType=VARCHAR},
+            orderNo = #{orderNo,jdbcType=VARCHAR},
+            status = #{status,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

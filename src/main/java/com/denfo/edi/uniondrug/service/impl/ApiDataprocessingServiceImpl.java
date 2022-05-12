@@ -2,7 +2,7 @@ package com.denfo.edi.uniondrug.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.denfo.edi.uniondrug.dao.InterfaceLogDao;
+import com.denfo.edi.uniondrug.dao.InterfaceLogMapper;
 import com.denfo.edi.uniondrug.entity.InterfaceLog;
 import com.denfo.edi.uniondrug.util.Sign;
 import com.denfo.edi.uniondrug.service.ApiDataprocessingService;
@@ -23,7 +23,7 @@ import java.util.*;
 public class ApiDataprocessingServiceImpl implements ApiDataprocessingService {
 
     @Autowired
-    private InterfaceLogDao interfaceLogDao;
+    private InterfaceLogMapper interfaceLogDao;
 
     @Override
     public String getHttpPostData(String method, String httpUrl, String testSign) {
@@ -52,11 +52,13 @@ public class ApiDataprocessingServiceImpl implements ApiDataprocessingService {
 //                sign = testSign;
                 requestJson.put("sign", sign);
                 // System.out.println(sign);
-                String result = HttpPostUtil.getPostResult(httpUrl, requestJson.toString());
-                // System.out.println(result);
+                String strRequest = requestJson.toString();
+                String result = HttpPostUtil.getPostResult(httpUrl, strRequest);
+                 System.out.println(httpUrl);
                 JSONObject jsonObject = JSONObject.parseObject(result);
-               System.out.println(jsonObject.toString());
+               System.out.println(strRequest);
                  interfaceLog.setResponse(jsonObject.toString());
+                interfaceLog.setRequest(strRequest);
                 interfaceLog.setStatus(1);
                 if (method == "trackingStatus" || requestJson.getInteger("num") == 1) {
                     interfaceLogDao.updateLog(interfaceLog);

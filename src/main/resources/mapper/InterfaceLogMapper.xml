@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.denfo.edi.uniondrug.dao.InterfaceLogMapper">
+
+    <resultMap id="InterfaceLogMap" type="com.denfo.edi.uniondrug.entity.InterfaceLog">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="method" property="method" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="request" property="request" jdbcType="VARCHAR"/>
+        <result column="response" property="response" jdbcType="VARCHAR"/>
+        <result column="createDT" property="createDT" jdbcType="DATE"/>
+        <result column="updateDT" property="updateDT" jdbcType="DATE"/>
+    </resultMap>
+
+    <select id="queryLog" resultType="com.denfo.edi.uniondrug.entity.InterfaceLog">
+        SELECT * FROM interfaceLog where id = #{id}
+    </select>
+
+    <select id="requestQuery" resultType="com.denfo.edi.uniondrug.entity.InterfaceLog">
+        select * from interfaceLog where method = #{method} and status = #{status}
+    </select>
+
+    <update id="updateLog">
+        update interfacelog set method = #{method},status=#{status},request=#{request}, response=#{response} where id = #{id}
+    </update>
+
+    <insert id="insertLog">
+        INSERT INTO interfacelog(method,status,request,response) VALUES(#{method},#{status}, #{request}, #{response})
+    </insert>
+
+    <select id="getInterfaceLogById" resultMap="InterfaceLogMap">
+        select e.* from interfacelog e where e.`id`=#{id}
+    </select>
+    <select id="getInterfaceLogByPage" resultMap="InterfaceLogMap">
+        select e.* from interfacelog e
+        where 1=1
+        <if test="rp.id !=null and rp.id!=''">
+            and e.id = #{rp.id}
+        </if>
+        <if test="rp.method !=null and rp.method!=''">
+            and e.method like concat('%',#{rp.method},'%')
+        </if>
+        <if test="rp.status !=null and rp.status!=''">
+            and e.status = #{rp.status}
+        </if>
+        <if test="createDTScope !=null">
+            and e.createDT between #{createDTScope[0]} and #{createDTScope[1]}
+        </if>
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+
+    </select>
+    <select id="getTotal" resultType="java.lang.Long">
+        select count(*) from interfacelog e
+        where 1=1
+        <if test="rp.method !=null and rp.method!=''">
+            and e.method like concat('%',#{rp.method},'%')
+        </if>
+        <if test="rp.status !=null and rp.status!=''">
+            and e.status like concat('%',#{rp.status},'%')
+        </if>
+        <if test="createDTScope !=null">
+            and e.createDT between #{createDTScope[0]} and #{createDTScope[1]}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="InterfaceLogMap" parameterType="java.lang.Integer">
+        select * from interfacelog where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from interfacelog
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insertSelective" parameterType="com.denfo.edi.uniondrug.entity.InterfaceLog">
+        insert into interfacelog (
+        method,
+        status,
+        request,
+        response
+        )
+        values
+        ( #{method,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},
+        #{request,jdbcType=VARCHAR},#{response,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.denfo.edi.uniondrug.entity.InterfaceLog">
+        update interfacelog
+        <set>
+            <if test="method != null">
+                method = #{method,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="request != null">
+                request = #{request,jdbcType=VARCHAR},
+            </if>
+            <if test="response != null">
+                response = #{response,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.denfo.edi.uniondrug.entity.InterfaceLog">
+        update interfacelog
+        set method = #{method,jdbcType=VARCHAR},
+        status = #{status,jdbcType=VARCHAR},
+        request = #{request,jdbcType=VARCHAR},
+        response = #{response,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>
+

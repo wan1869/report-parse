@@ -1,11 +1,11 @@
 package test.java.com.denfo.edi.uniondrug;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.denfo.edi.uniondrug.EdiApplication;
-import com.denfo.edi.uniondrug.dao.InterfaceLogDao;
+import com.denfo.edi.uniondrug.dao.InterfaceLogMapper;
 import com.denfo.edi.uniondrug.entity.InterfaceLog;
-import com.denfo.edi.uniondrug.util.Sign;
+import com.denfo.edi.uniondrug.entity.RespPageBean;
+
+import com.denfo.edi.uniondrug.service.StatusTrackingService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +15,18 @@ import java.util.Date;
 @SpringBootTest(classes = EdiApplication.class)
 class EdiApplicationTests {
 	@Autowired
-	private InterfaceLogDao interfaceDao;
+	private InterfaceLogMapper interfaceDao;
+
+
+	@Autowired
+	private StatusTrackingService statusTrackingService;
+
+
+	@Test
+	public void testgetStatusTracking() {
+
+		statusTrackingService.getStatusTrackingByPage(1,10,null,null);
+	}
 
 
 	@Test
@@ -25,9 +36,9 @@ class EdiApplicationTests {
 	@Test
 	public void testqueryLogs() {
 		InterfaceLog log = interfaceDao.queryLog(1);
-		System.out.println(log.getMethod());
-		JSONObject requestJson = JSON.parseObject(log.getRequest());
-		String sign = Sign.getSign(requestJson);
+//		System.out.println(log.getMethod());
+//		JSONObject requestJson = JSON.parseObject(log.getRequest());
+//		String sign = Sign.getSign(requestJson);
 	}
 	@Test
 	public void testinsertLog() {
@@ -47,7 +58,7 @@ class EdiApplicationTests {
 		InterfaceLog log = new InterfaceLog();
 		log.setId(1);
 		log.setMethod("patientInfo2");
-		log.setStatus(0);
+		log.setStatus(1);
 		log.setRequest("requesttest");
 		log.setResponse("responsetest");
 		Date date = new Date();
@@ -55,5 +66,8 @@ class EdiApplicationTests {
 		log.setUpdateDT(date);
 		interfaceDao.updateLog(log);
 	}
+
+
+
 
 }
