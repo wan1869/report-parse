@@ -80,6 +80,31 @@
 	<build>
 		<finalName>edi</finalName>
 
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.yml</include>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+					<include>static/**</include>
+					<include>templates/**</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.yml</include>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+					<include>static/**</include>
+					<include>templates/**</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -94,15 +119,15 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
 				<!-- 指定打包的jar包输出路径 -->
-					<outputDirectory>/Users/tiger/Desktop/code/uniondrug/report-parse</outputDirectory>
+					<outputDirectory>src/main/docker</outputDirectory>
 					<!--不打入jar包的文件类型或者路径 -->
-					<excludes>
-						<exclude>**/*.properties</exclude>
-						<exclude>**/*.xml</exclude>
-						<exclude>**/*.yml</exclude>
-						<exclude>static/**</exclude>
-						<exclude>templates/**</exclude>
-					</excludes>
+					<!--<excludes>-->
+						<!--<exclude>**/*.properties</exclude>-->
+						<!--<exclude>**/*.xml</exclude>-->
+						<!--<exclude>**/*.yml</exclude>-->
+						<!--<exclude>static/**</exclude>-->
+						<!--<exclude>templates/**</exclude>-->
+					<!--</excludes>-->
 				</configuration>
 			</plugin>
 
