@@ -13,11 +13,11 @@
     </resultMap>
 
     <select id="queryLog" resultType="com.denfo.edi.uniondrug.entity.InterfaceLog">
-        SELECT * FROM interfaceLog where id = #{id}
+        SELECT * FROM interfacelog where id = #{id}
     </select>
 
     <select id="requestQuery" resultType="com.denfo.edi.uniondrug.entity.InterfaceLog">
-        select * from interfaceLog where method = #{method} and status = #{status}
+        select * from interfacelog where method = #{method} and status = #{status}
     </select>
 
     <update id="updateLog">
