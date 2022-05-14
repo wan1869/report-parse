@@ -291,4 +291,97 @@ public class POIUtils {
         }
         return new ResponseEntity<byte[]>(baos.toByteArray(), headers, HttpStatus.CREATED);
     }
+
+    public static ResponseEntity<byte[]> STInterface2Excel(List<STInterfaceBean> list) {
+        //1. 创建一个 Excel 文档
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        //2. 创建文档摘要
+        workbook.createInformationProperties();
+        //3. 获取并配置文档信息
+        DocumentSummaryInformation docInfo = workbook.getDocumentSummaryInformation();
+        //文档类别
+        docInfo.setCategory("运营文档");
+        //文档管理员
+        docInfo.setManager("denfo");
+        //设置公司信息
+        docInfo.setCompany("www.denfogroup.com");
+        //4. 获取文档摘要信息
+        SummaryInformation summInfo = workbook.getSummaryInformation();
+        //文档标题
+        summInfo.setTitle("预约计划表");
+        //文档作者
+        summInfo.setAuthor("denfogroup");
+        // 文档备注
+        summInfo.setComments("本文档由denfogroup提供");
+        //5. 创建样式
+        //创建标题行的样式
+        HSSFCellStyle headerStyle = workbook.createCellStyle();
+        headerStyle.setFillForegroundColor(IndexedColors.YELLOW.index);
+        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        HSSFCellStyle dateCellStyle = workbook.createCellStyle();
+        dateCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy"));
+        HSSFSheet sheet = workbook.createSheet("预约计划表");
+        //设置列的宽度
+        sheet.setColumnWidth(0, 5 * 256);
+        sheet.setColumnWidth(1, 12 * 256);
+        sheet.setColumnWidth(2, 10 * 256);
+        sheet.setColumnWidth(3, 5 * 256);
+        sheet.setColumnWidth(4, 12 * 256);
+        sheet.setColumnWidth(5, 20 * 256);
+        sheet.setColumnWidth(6, 10 * 256);
+        sheet.setColumnWidth(7, 10 * 256);
+        //6. 创建标题行
+        HSSFRow r0 = sheet.createRow(0);
+        HSSFCell c0 = r0.createCell(0);
+        c0.setCellValue("编号");
+        c0.setCellStyle(headerStyle);
+        HSSFCell c1 = r0.createCell(1);
+        c1.setCellStyle(headerStyle);
+        c1.setCellValue("预约单号");
+        HSSFCell c2 = r0.createCell(2);
+        c2.setCellStyle(headerStyle);
+        c2.setCellValue("人员ID");
+        HSSFCell c3 = r0.createCell(3);
+        c3.setCellStyle(headerStyle);
+        c3.setCellValue("姓名");
+        HSSFCell c4 = r0.createCell(4);
+        c4.setCellStyle(headerStyle);
+        c4.setCellValue("电话号码");
+        HSSFCell c5 = r0.createCell(5);
+        c5.setCellStyle(headerStyle);
+        c5.setCellValue("开始日期");
+        HSSFCell c6 = r0.createCell(6);
+        c6.setCellStyle(headerStyle);
+        c6.setCellValue("结束日期");
+        HSSFCell c7 = r0.createCell(7);
+        c7.setCellStyle(headerStyle);
+        c7.setCellValue("体检报告下载地址");
+
+
+        for (int i = 0; i < list.size(); i++) {
+            STInterfaceBean st = list.get(i);
+            HSSFRow row = sheet.createRow(i + 1);
+            row.createCell(0).setCellValue(st.getId());
+            row.createCell(1).setCellValue(st.getOrderNo());
+            row.createCell(2).setCellValue(st.getPatIndexNo());
+            row.createCell(3).setCellValue(st.getName());
+            row.createCell(4).setCellValue(st.getTelephone());
+            row.createCell(5).setCellValue(st.getStartDate());
+            row.createCell(6).setCellValue(st.getEndDate());
+            row.createCell(7).setCellValue(st.getReportLink());
+
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        HttpHeaders headers = new HttpHeaders();
+        try {
+            headers.setContentDispositionFormData("attachment", new String("预约计划表.xls".getBytes("UTF-8"), "ISO-8859-1"));
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            workbook.write(baos);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<byte[]>(baos.toByteArray(), headers, HttpStatus.CREATED);
+    }
+
 }

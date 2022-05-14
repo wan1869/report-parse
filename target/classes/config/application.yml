@@ -1,6 +1,6 @@
 
 server:
-  port: 8081
+  port: 8080
   servlet:
     context-path: /
 
@@ -13,4 +13,11 @@ spring:
 
 
 mybatis:
+  mapper-locations: classpath*:/mapper/**/*Mapper.xml
   type-aliases-package: com.denfo.edi.uniondrug.dao
+
+
+interface:
+  uniondrug:
+    url: "http://ps-hs-api.uniondrug.cn/df/"
+    sign: "18db9fbecc7701646336562df6bd4dfa"

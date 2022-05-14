@@ -1,9 +1,6 @@
 package com.denfo.edi.uniondrug.controller.registerplan;
 
-import com.denfo.edi.uniondrug.entity.InterfaceLog;
-import com.denfo.edi.uniondrug.entity.RespBean;
-import com.denfo.edi.uniondrug.entity.RespPageBean;
-import com.denfo.edi.uniondrug.entity.StatusTracking;
+import com.denfo.edi.uniondrug.entity.*;
 import com.denfo.edi.uniondrug.service.InterfaceLogService;
 import com.denfo.edi.uniondrug.service.StatusTrackingService;
 import com.denfo.edi.uniondrug.util.POIUtils;
@@ -68,6 +65,10 @@ public class RegisterPlanController {
         List<InterfaceLog> list = (List<InterfaceLog>) interfaceLogService.getInterfaceLogByPage(null, null, new InterfaceLog(),null).getData();
         return POIUtils.RP2Excel(list);
     }
-
+    @GetMapping("/parse/{id}")
+    public ResponseEntity<byte[]> parseData(@PathVariable Integer id) {
+        List<STInterfaceBean> list = (List<STInterfaceBean>) interfaceLogService.getSTInterfaceByID(id).getData();
+        return POIUtils.STInterface2Excel(list);
+    }
 
 }

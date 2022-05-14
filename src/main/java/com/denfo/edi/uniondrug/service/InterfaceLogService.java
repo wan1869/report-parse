@@ -1,22 +1,21 @@
 package com.denfo.edi.uniondrug.service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.denfo.edi.uniondrug.config.PropertiesConfig;
 import com.denfo.edi.uniondrug.dao.InterfaceLogMapper;
-import com.denfo.edi.uniondrug.dao.StatusTrackingMapper;
 import com.denfo.edi.uniondrug.entity.InterfaceLog;
 import com.denfo.edi.uniondrug.entity.RespPageBean;
+import com.denfo.edi.uniondrug.entity.STInterfaceBean;
 import com.denfo.edi.uniondrug.entity.StatusTracking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.interceptor.SimpleTraceInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -45,6 +44,55 @@ public class InterfaceLogService {
         RespPageBean bean = new RespPageBean();
         bean.setData(data);
         bean.setTotal(total);
+        return bean;
+    }
+
+    public RespPageBean getSTInterfaceByID(Integer id) {
+        InterfaceLog interfaceLog = interfaceLogMapper.getInterfaceLogById(id);
+        boolean flag = false;
+        JSONObject responseJson = JSON.parseObject(interfaceLog.getResponse());
+        Map<String, String> params = new HashMap<>();
+        List<STInterfaceBean> data = new ArrayList<STInterfaceBean>();
+        if (!responseJson.isEmpty()) {
+
+            // params.put("flag", "1");
+            // params.put("size", "100");
+            // params.put("num", "1");
+            // params.put("lastUpdatedTime", "2022-04-12 08:08:45");
+            JSONArray dataJson = responseJson.getJSONArray("data");
+            if(!dataJson.isEmpty()){
+                for(int i=0;i<dataJson.size();i++) {
+                    STInterfaceBean st = new STInterfaceBean();
+                    JSONObject JObje = dataJson.getJSONObject(i);
+                    st.setId(i + 1);
+                    st.setOrderNo(JObje.getString("orderNo"));
+                    st.setPatIndexNo(JObje.getString("patIndexNo"));
+                    st.setName(JObje.getString("patName"));
+                    st.setTelephone(JObje.getString("mobileNo"));
+                    st.setStartDate(JObje.getString("startDate"));
+                    st.setEndDate(JObje.getString("endDate"));
+                    st.setReportLink(JObje.getString("reportDownloadPath"));
+                    data.add(st);
+                }
+            }else{
+                flag = true;
+            }
+        }else{
+           flag = true;
+        }
+        if(flag){
+            STInterfaceBean st = new STInterfaceBean();
+            st.setId(0);
+            st.setPatIndexNo("-");
+            st.setName("-");
+            st.setTelephone("-");
+            st.setReportLink("-");
+            st.setStartDate("-");
+            st.setEndDate("-");
+            data.add(st);
+        }
+        RespPageBean bean = new RespPageBean();
+        bean.setData(data);
         return bean;
     }
 
