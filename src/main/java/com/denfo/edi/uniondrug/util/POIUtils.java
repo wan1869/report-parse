@@ -384,4 +384,75 @@ public class POIUtils {
         return new ResponseEntity<byte[]>(baos.toByteArray(), headers, HttpStatus.CREATED);
     }
 
+    public static ResponseEntity<byte[]> PIInterface2Excel(List<PIInterfaceBean> list) {
+        //1. 创建一个 Excel 文档
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        //2. 创建文档摘要
+        workbook.createInformationProperties();
+        //3. 获取并配置文档信息
+        DocumentSummaryInformation docInfo = workbook.getDocumentSummaryInformation();
+        //文档类别
+        docInfo.setCategory("运营文档");
+        //文档管理员
+        docInfo.setManager("denfo");
+        //设置公司信息
+        docInfo.setCompany("www.denfogroup.com");
+        //4. 获取文档摘要信息
+        SummaryInformation summInfo = workbook.getSummaryInformation();
+        //文档标题
+        summInfo.setTitle("花名册信息表");
+        //文档作者
+        summInfo.setAuthor("denfogroup");
+        // 文档备注
+        summInfo.setComments("本文档由denfogroup提供");
+        //5. 创建样式
+        //创建标题行的样式
+        HSSFCellStyle headerStyle = workbook.createCellStyle();
+        headerStyle.setFillForegroundColor(IndexedColors.YELLOW.index);
+        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        HSSFCellStyle dateCellStyle = workbook.createCellStyle();
+        dateCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy"));
+        HSSFSheet sheet = workbook.createSheet("花名册信息表");
+        //设置列的宽度
+        sheet.setColumnWidth(0, 5 * 256);
+        sheet.setColumnWidth(1, 12 * 256);
+        sheet.setColumnWidth(2, 10 * 256);
+        sheet.setColumnWidth(3, 5 * 256);
+
+        HSSFRow r0 = sheet.createRow(0);
+        HSSFCell c0 = r0.createCell(0);
+        c0.setCellValue("编号");
+        c0.setCellStyle(headerStyle);
+        HSSFCell c1 = r0.createCell(1);
+        c1.setCellStyle(headerStyle);
+        c1.setCellValue("人员编号");
+        HSSFCell c2 = r0.createCell(2);
+        c2.setCellStyle(headerStyle);
+        c2.setCellValue("购买者姓名");
+        HSSFCell c3 = r0.createCell(3);
+        c3.setCellStyle(headerStyle);
+        c3.setCellValue("购买者电话");
+
+
+        for (int i = 0; i < list.size(); i++) {
+            PIInterfaceBean pi = list.get(i);
+            HSSFRow row = sheet.createRow(i + 1);
+            row.createCell(0).setCellValue(pi.getId());
+            row.createCell(1).setCellValue(pi.getPatIndexNo());
+            row.createCell(2).setCellValue(pi.getBuyerName());
+            row.createCell(3).setCellValue(pi.getBuyerMobileno());
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        HttpHeaders headers = new HttpHeaders();
+        try {
+            headers.setContentDispositionFormData("attachment", new String("花名册信息表.xls".getBytes("UTF-8"), "ISO-8859-1"));
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            workbook.write(baos);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<byte[]>(baos.toByteArray(), headers, HttpStatus.CREATED);
+    }
+
 }

@@ -5,10 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.denfo.edi.uniondrug.config.PropertiesConfig;
 import com.denfo.edi.uniondrug.dao.InterfaceLogMapper;
-import com.denfo.edi.uniondrug.entity.InterfaceLog;
-import com.denfo.edi.uniondrug.entity.RespPageBean;
-import com.denfo.edi.uniondrug.entity.STInterfaceBean;
-import com.denfo.edi.uniondrug.entity.StatusTracking;
+import com.denfo.edi.uniondrug.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.SimpleTraceInterceptor;
@@ -90,6 +87,43 @@ public class InterfaceLogService {
             st.setStartDate("-");
             st.setEndDate("-");
             data.add(st);
+        }
+        RespPageBean bean = new RespPageBean();
+        bean.setData(data);
+        return bean;
+    }
+
+    public RespPageBean getPIInterfaceByID(Integer id) {
+        InterfaceLog interfaceLog = interfaceLogMapper.getInterfaceLogById(id);
+        boolean flag = false;
+        JSONObject responseJson = JSON.parseObject(interfaceLog.getResponse());
+
+        List<PIInterfaceBean> data = new ArrayList<PIInterfaceBean>();
+        if (!responseJson.isEmpty()) {
+            JSONArray dataJson = responseJson.getJSONArray("data");
+            if(!dataJson.isEmpty()){
+                for(int i=0;i<dataJson.size();i++) {
+                    PIInterfaceBean pi = new PIInterfaceBean();
+                    JSONObject JObje = dataJson.getJSONObject(i);
+                    pi.setId(i + 1);
+                    pi.setPatIndexNo(JObje.getString("patIndexNo"));
+                    pi.setBuyerName(JObje.getString("buyerName"));
+                    pi.setBuyerMobileno(JObje.getString("buyerMobileNo"));
+                    data.add(pi);
+                }
+            }else{
+                flag = true;
+            }
+        }else{
+            flag = true;
+        }
+        if(flag){
+            PIInterfaceBean pi = new PIInterfaceBean();
+            pi.setId(0);
+            pi.setPatIndexNo("-");
+            pi.setBuyerName("-");
+            pi.setBuyerMobileno("-");
+            data.add(pi);
         }
         RespPageBean bean = new RespPageBean();
         bean.setData(data);

@@ -70,5 +70,10 @@ public class RegisterPlanController {
         List<STInterfaceBean> list = (List<STInterfaceBean>) interfaceLogService.getSTInterfaceByID(id).getData();
         return POIUtils.STInterface2Excel(list);
     }
+    @GetMapping("/parsepi/{id}")
+    public ResponseEntity<byte[]> parsePatientInfo(@PathVariable Integer id) {
+        List<PIInterfaceBean> list = (List<PIInterfaceBean>) interfaceLogService.getPIInterfaceByID(id).getData();
+        return POIUtils.PIInterface2Excel(list);
+    }
 
 }
