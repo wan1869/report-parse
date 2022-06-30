@@ -31,6 +31,7 @@ public class ApiDataprocessingServiceImpl implements ApiDataprocessingService {
         String data = "";
         Integer num = 1;
         Boolean flag = true;
+        Integer retry_num = 0;
         InterfaceLog interfaceLog = interfaceLogDao.requestQuery(method, 0);
         if (interfaceLog ==  null) {
             return "Warning: " + method + "接口无请求参数！";
@@ -54,10 +55,10 @@ public class ApiDataprocessingServiceImpl implements ApiDataprocessingService {
                 // System.out.println(sign);
                 String strRequest = requestJson.toString();
                 String result = HttpPostUtil.getPostResult(httpUrl, strRequest);
-                 System.out.println(httpUrl);
+                System.out.println(httpUrl);
                 JSONObject jsonObject = JSONObject.parseObject(result);
-               System.out.println(strRequest);
-                 interfaceLog.setResponse(jsonObject.toString());
+                System.out.println(strRequest);
+                interfaceLog.setResponse(jsonObject.toString());
                 interfaceLog.setRequest(strRequest);
                 interfaceLog.setStatus(1);
                 if (method == "trackingStatus" || requestJson.getInteger("num") == 1) {
@@ -82,6 +83,7 @@ public class ApiDataprocessingServiceImpl implements ApiDataprocessingService {
                         requestJson.replace("num", num.toString());
                         requestJson.remove("time");
                         requestJson.remove("sign");
+                        retry_num = 0;
 
                     }
                 }
@@ -96,11 +98,11 @@ public class ApiDataprocessingServiceImpl implements ApiDataprocessingService {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                num++;
-                if (num >= 5) {
+                retry_num++;
+                if (retry_num == 4) {
+                    data = e.getMessage();
                     flag = false;
                 }
-                data = e.getMessage();
 
             }
         }
