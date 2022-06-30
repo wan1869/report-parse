@@ -96,6 +96,12 @@ public class ApiDataprocessingServiceImpl implements ApiDataprocessingService {
 
             } catch (Exception e) {
                 e.printStackTrace();
+                num++;
+                if (num >= 5) {
+                    flag = false;
+                }
+                data = e.getMessage();
+
             }
         }
 
